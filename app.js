@@ -68,20 +68,28 @@ function nextPlayer() {
 }
 
 document.querySelector(`.btn-hold`).addEventListener('click', function()  {
-    //1.add roundScore to globalScore
+    // add roundScore to globalScore
     score[activePlayer]  += roundScore; // score = roundScore + score
 
-    //2. Update UI
+    // Update UI
     document.getElementById(`score-${activePlayer}`).textContent = score[activePlayer];
-    //2. define when user win game how much score he should have
-    if(score[activePlayer] === 10) {
-        // stopGame();
-        document.querySelector(`player-${activePlayer}-panel`).classList.add('.winner');
-    }
 
-    //3. turn next player
+    // check winner player
+    console.log(score[activePlayer] > 10);
+
+
+    if(score[activePlayer] > 10) {
+        document.querySelector(`#name-${activePlayer}`).textContent = "Winner";
+        document.querySelector(`.player-${activePlayer}-panel`).classList.add('winner');
+        document.querySelector(`.dice`).style.display = 'none';
+        document.querySelector(`.player-${activePlayer}-panel`).classList.remove('active');
+    } else {
+         // turn next player
     nextPlayer();
+    }
 })
+
+
 
 
 
