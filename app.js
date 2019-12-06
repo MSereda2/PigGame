@@ -15,13 +15,15 @@ GAME RULES
 // каждому приложению нужны переменые они отслеживают измение 
 var score, roundScore, activePlayer;
 
-score = 0;
+score = [0,0];
 roundScore = 0;
 activePlayer = 0;
 
 // DOM elements
 var btn_roll = document.querySelector(`.btn-roll`);
 var dice1 = document.querySelector(`.dice`);
+
+// Set out score and round score to 0 when we start our app
 var score0 = document.getElementById(`score-0`).textContent = 0;
 var score1 = document.getElementById(`score-1`).textContent = 0;
 var current0 = document.getElementById(`current-0`).textContent = 0;
@@ -29,7 +31,7 @@ var current1 = document.getElementById(`current-1`).textContent = 0;
 
 
 
-
+// here we hide our dice before game
 document.querySelector('.dice').style.display = 'none';
 
 btn_roll.addEventListener('click', function() {
@@ -51,10 +53,35 @@ btn_roll.addEventListener('click', function() {
     }
 })
 
+function nextPlayer() {
+    activePlayer === 0 ? activePlayer = 1: activePlayer = 0;
 
+    roundScore = 0;
+    // nextPlayer();
+    // here we change UI to 0
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+    // here we toggle class from one player to another player this two line of code very important because the toggle style
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+    document.querySelector('.dice').style.display = 'none';
+}
 
+document.querySelector(`.btn-hold`).addEventListener('click', function()  {
+    //1.add roundScore to globalScore
+    score[activePlayer]  += roundScore; // score = roundScore + score
 
+    //2. Update UI
+    document.getElementById(`score-${activePlayer}`).textContent = score[activePlayer];
+    //2. define when user win game how much score he should have
+    if(score[activePlayer] === 10) {
+        // stopGame();
+        document.querySelector(`player-${activePlayer}-panel`).classList.add('.winner');
+    }
 
+    //3. turn next player
+    nextPlayer();
+})
 
 
 
