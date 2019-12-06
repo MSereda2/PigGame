@@ -13,16 +13,19 @@ GAME RULES
 
 //1 First we should declared our fundamental varibalse this var will track our changes 
 // каждому приложению нужны переменые они отслеживают измение 
-var score, roundScore, activePlayer;
+var score, roundScore, activePlayer, gamePlaying;
+
 
 init();
+// gamePlaying = true;
 // DOM elements
 var btn_roll = document.querySelector(`.btn-roll`);
 var dice1 = document.querySelector(`.dice`);
 
 
 btn_roll.addEventListener('click', function() {
-    //1. we need random number for our dice
+    if(gamePlaying) {
+        //1. we need random number for our dice
     // this line allows us to get randow number
     var dice = Math.floor(Math.random() * 6) + 1;
 
@@ -38,7 +41,8 @@ btn_roll.addEventListener('click', function() {
     } else {
         nextPlayer();
     }
-})
+    }
+});
 
 function nextPlayer() {
     activePlayer === 0 ? activePlayer = 1: activePlayer = 0;
@@ -55,8 +59,8 @@ function nextPlayer() {
 }
 
 document.querySelector(`.btn-hold`).addEventListener('click', function()  {
-    // add roundScore to globalScore
-    score[activePlayer]  += roundScore; // score = roundScore + score
+    if(gamePlaying) {
+        score[activePlayer]  += roundScore; // score = roundScore + score
 
     // Update UI
     document.getElementById(`score-${activePlayer}`).textContent = score[activePlayer];
@@ -67,20 +71,28 @@ document.querySelector(`.btn-hold`).addEventListener('click', function()  {
         document.querySelector(`.player-${activePlayer}-panel`).classList.add('winner');
         document.querySelector(`.dice`).style.display = 'none';
         document.querySelector(`.player-${activePlayer}-panel`).classList.remove('active');
+        gamePlaying = false;
+
     } else {
          // turn next player
-    nextPlayer();
+          nextPlayer();
     }
+    }
+    // add roundScore to globalScore
+    
+
 });
 
 document.querySelector(`.btn-new`).addEventListener('click', init);
+
+
 
 function init() {
     // our main var for truck progress of game
     score = [0,0];
     activePlayer = 0;
     roundScore = 0;
-
+    gamePlaying = true;
     // Set out score and round score to 0 when we start our app
     var score0 = document.getElementById(`score-0`).textContent = 0;
     var score1 = document.getElementById(`score-1`).textContent = 0;
@@ -97,15 +109,6 @@ function init() {
     document.querySelector(`.player-0-panel`).classList.remove('active');
     document.querySelector(`.player-0-panel`).classList.add('active');
     document.querySelector(`.player-1-panel`).classList.remove('active');
-
-
-
-
-
-
-
-
-
 };
 
 
