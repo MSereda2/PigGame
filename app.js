@@ -15,24 +15,11 @@ GAME RULES
 // каждому приложению нужны переменые они отслеживают измение 
 var score, roundScore, activePlayer;
 
-score = [0,0];
-roundScore = 0;
-activePlayer = 0;
-
+init();
 // DOM elements
 var btn_roll = document.querySelector(`.btn-roll`);
 var dice1 = document.querySelector(`.dice`);
 
-// Set out score and round score to 0 when we start our app
-var score0 = document.getElementById(`score-0`).textContent = 0;
-var score1 = document.getElementById(`score-1`).textContent = 0;
-var current0 = document.getElementById(`current-0`).textContent = 0;
-var current1 = document.getElementById(`current-1`).textContent = 0;
-
-
-
-// here we hide our dice before game
-document.querySelector('.dice').style.display = 'none';
 
 btn_roll.addEventListener('click', function() {
     //1. we need random number for our dice
@@ -75,10 +62,7 @@ document.querySelector(`.btn-hold`).addEventListener('click', function()  {
     document.getElementById(`score-${activePlayer}`).textContent = score[activePlayer];
 
     // check winner player
-    console.log(score[activePlayer] > 10);
-
-
-    if(score[activePlayer] > 10) {
+    if(score[activePlayer] >= 10) {
         document.querySelector(`#name-${activePlayer}`).textContent = "Winner";
         document.querySelector(`.player-${activePlayer}-panel`).classList.add('winner');
         document.querySelector(`.dice`).style.display = 'none';
@@ -87,7 +71,42 @@ document.querySelector(`.btn-hold`).addEventListener('click', function()  {
          // turn next player
     nextPlayer();
     }
-})
+});
+
+document.querySelector(`.btn-new`).addEventListener('click', init);
+
+function init() {
+    // our main var for truck progress of game
+    score = [0,0];
+    activePlayer = 0;
+    roundScore = 0;
+
+    // Set out score and round score to 0 when we start our app
+    var score0 = document.getElementById(`score-0`).textContent = 0;
+    var score1 = document.getElementById(`score-1`).textContent = 0;
+    var current0 = document.getElementById(`current-0`).textContent = 0;
+    var current1 = document.getElementById(`current-1`).textContent = 0;
+
+    // here we hide our dice before game
+    document.querySelector('.dice').style.display = 'none';
+
+    document.getElementById(`name-0`).textContent = 'Player-1';
+    document.getElementById(`name-1`).textContent = 'Player-2';
+    document.querySelector(`.player-0-panel`).classList.remove('winner');
+    document.querySelector(`.player-1-panel`).classList.remove('winner');
+    document.querySelector(`.player-0-panel`).classList.remove('active');
+    document.querySelector(`.player-0-panel`).classList.add('active');
+    document.querySelector(`.player-1-panel`).classList.remove('active');
+
+
+
+
+
+
+
+
+
+};
 
 
 
